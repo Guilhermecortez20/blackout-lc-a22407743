@@ -1,4 +1,5 @@
 ﻿using System;
+using Blackout.Model;
 
 namespace Blackout
 {
@@ -6,7 +7,16 @@ namespace Blackout
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello LP!");
+           Grid grid = new Grid(8, 10);
+
+            for (int row = 0; row < grid.Size; row++)
+            {
+                for (int col = 0; col < grid.Size; col++)
+                {
+                    Console.Write(grid.IsOn(row, col) ? "■ " : "□ ");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
