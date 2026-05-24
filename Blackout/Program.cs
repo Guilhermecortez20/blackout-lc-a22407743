@@ -7,13 +7,13 @@ namespace Blackout
     {
         private static void Main(string[] args)
         {
-           Grid grid = new Grid(8, 10);
+            Game game = new Game(Difficulty.Hard);
 
-            for (int row = 0; row < grid.Size; row++)
+            for (int row = 0; row < game.Size; row++)
             {
-                for (int col = 0; col < grid.Size; col++)
+                for (int col = 0; col < game.Size; col++)
                 {
-                    Console.Write(grid.IsOn(row, col) ? "■ " : "□ ");
+                    Console.Write(game.IsCellOn(row, col) ? "■ " : "□ ");
                 }
                 Console.WriteLine();
             }
