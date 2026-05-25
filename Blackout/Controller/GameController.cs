@@ -1,17 +1,20 @@
 using System;
 using Blackout.Model;
+using Blackout.View;
 
 namespace Blackout.Controller
 {
     public class GameController
     {
         private Game _game;
+        private readonly GameView _view;
         private int _selectorRow;
         private int _selectorCol;
 
-        public GameController(Game game)
+        public GameController(Game game, GameView view)
         {
             _game = game;
+            _view = view;
             _selectorRow = 0;
             _selectorCol = 0;
         }
@@ -22,6 +25,7 @@ namespace Blackout.Controller
 
             while (playing)
             {
+                _view.RenderGrid(_game, _selectorRow, _selectorCol);
                 ConsoleKey key = Console.ReadKey(intercept: true).Key;
 
                 switch (key)
@@ -45,6 +49,7 @@ namespace Blackout.Controller
 
                 if (_game.IsWon())
                 {
+                    _view.ShowWinMessage(_game.Moves);
                     playing = AskPlayAgain();
                 }
             }
@@ -61,10 +66,7 @@ namespace Blackout.Controller
 
         private bool AskPlayAgain()
         {
-            Console.WriteLine("You won! Play again? (Y/N)");
-            ConsoleKey key = Console.ReadKey(intercept: true).Key;
-
-            if (key == ConsoleKey.Y)
+            if (_view.AskPlayAgain())
             {
                 _game = new Game(_game.Level);
                 _selectorRow = 0;

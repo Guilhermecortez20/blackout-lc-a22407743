@@ -1,5 +1,6 @@
 ﻿using System;
 using Blackout.Model;
+using Blackout.View;
 using Blackout.Controller;
 
 namespace Blackout
@@ -8,8 +9,10 @@ namespace Blackout
     {
         private static void Main(string[] args)
         {
-            Game game = new Game(Difficulty.Hard);
-            GameController controller = new GameController(game);
+            GameView view = new GameView();
+            Difficulty difficulty = view.AskDifficulty();
+            Game game = new Game(difficulty);
+            GameController controller = new GameController(game, view);
             controller.Run();
         }
     }
