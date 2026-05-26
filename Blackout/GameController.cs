@@ -2,6 +2,10 @@ using System;
 
 namespace Blackout
 {
+    /// <summary>
+    /// Represents the Controller in the MVC.
+    /// Manages the game loop, user input and coordinates between Model and View.
+    /// </summary>
     public class GameController
     {
         private Game _game;
@@ -9,6 +13,11 @@ namespace Blackout
         private int _selectorRow;
         private int _selectorCol;
 
+        /// <summary>
+        /// Creates a new instance of the GameController.
+        /// </summary>
+        /// <param name="game">The game model to control.</param>
+        /// <param name="view">The view used to render the game and read input.</param>
         public GameController(Game game, IGameView view)
         {
             _game = game;
@@ -17,6 +26,9 @@ namespace Blackout
             _selectorCol = 0;
         }
 
+        /// <summary>
+        /// Starts the application, showing the main menu and managing the flow between menus and game sessions.
+        /// </summary>
         public void Run()
         {
             bool playing = _view.ShowMainMenu();
@@ -33,6 +45,9 @@ namespace Blackout
             }
         }
 
+        /// <summary>
+        /// Runs the main game loop, handling input and checking the win condition after each move.
+        /// </summary>
         private void RunGameLoop()
         {
             bool inGame = true;
@@ -69,6 +84,11 @@ namespace Blackout
             }
         }
 
+        /// <summary>
+        /// Moves the cell selector by the given delta values, clamping it within the grid bounds.
+        /// </summary>
+        /// <param name="deltaRow">The row direction to move (-1 up, 1 down).</param>
+        /// <param name="deltaCol">The column direction to move (-1 left, 1 right).</param>
         private void MoveSelector(int deltaRow, int deltaCol)
         {
             _selectorRow = Math.Clamp(_selectorRow + deltaRow, 0, _game.Size - 1);
