@@ -1,8 +1,8 @@
 using System;
 
-namespace Blackout.Model
+namespace Blackout
 {
-        public class Grid
+    public class Grid
     {
         private readonly bool[,] _cells;
 
@@ -21,7 +21,7 @@ namespace Blackout.Model
         {
             for (int row = 0; row < Size; row++)
             {
-                for ( int col = 0; col < Size; col++)
+                for (int col = 0; col < Size; col++)
                 {
                     if (_cells[row, col])
                         return false;
@@ -36,13 +36,13 @@ namespace Blackout.Model
             ToggleCell(row, col);
             ToggleCell(row - 1, col);
             ToggleCell(row + 1, col);
-            ToggleCell( row, col - 1);
+            ToggleCell(row, col - 1);
             ToggleCell(row, col + 1);
         }
 
         private void ToggleCell(int row, int col)
         {
-            if ( row <0 || row >= Size || col < 0 || col >= Size)
+            if (row < 0 || row >= Size || col < 0 || col >= Size)
                 return;
 
             _cells[row, col] = !_cells[row, col];

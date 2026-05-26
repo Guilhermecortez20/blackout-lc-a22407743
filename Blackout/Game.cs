@@ -1,4 +1,4 @@
-namespace Blackout.Model
+namespace Blackout
 {
     public class Game
     {

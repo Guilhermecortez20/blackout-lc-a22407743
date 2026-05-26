@@ -1,9 +1,4 @@
-﻿using System;
-using Blackout.Model;
-using Blackout.View;
-using Blackout.Controller;
-
-namespace Blackout
+﻿namespace Blackout
 {
     public class Program
     {

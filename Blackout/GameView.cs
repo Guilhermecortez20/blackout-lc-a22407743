@@ -1,8 +1,7 @@
 using Spectre.Console;
-using Blackout.Model;
 using System;
 
-namespace Blackout.View
+namespace Blackout
 {
     public class GameView
     {
@@ -19,9 +18,8 @@ namespace Blackout.View
                 for (int col = 0; col < game.Size; col++)
                 {
                     string color = GetCellColor(game, row, col, selectorRow, selectorCol);
-                    AnsiConsole.Markup($"[{color}]████[/] ");
+                    AnsiConsole.Markup($"[{color}]███[/] ");
                 }
-                AnsiConsole.WriteLine();
                 AnsiConsole.WriteLine();
             }
 
@@ -37,8 +35,7 @@ namespace Blackout.View
             AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
             AnsiConsole.WriteLine();
 
-            string choice = AnsiConsole.Prompt
-            (
+            string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Choose a difficulty:")
                     .AddChoices("Easy (3x3)", "Medium (5x5)", "Hard (8x8)")
@@ -58,10 +55,7 @@ namespace Blackout.View
             AnsiConsole.MarkupLine($"[bold green]You won in {moves} moves![/]");
         }
 
-        public bool AskPlayAgain()
-        {
-            return AnsiConsole.Confirm("Play again?");
-        }
+        public bool AskPlayAgain() => AnsiConsole.Confirm("Play again?");
 
         private string GetCellColor(Game game, int row, int col, int selectorRow, int selectorCol)
         {
