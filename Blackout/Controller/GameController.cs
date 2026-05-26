@@ -26,7 +26,7 @@ namespace Blackout.Controller
             while (playing)
             {
                 _view.RenderGrid(_game, _selectorRow, _selectorCol);
-                ConsoleKey key = Console.ReadKey(intercept: true).Key;
+                ConsoleKey key = _view.ReadKey();
 
                 switch (key)
                 {
@@ -54,9 +54,6 @@ namespace Blackout.Controller
                 }
             }
         }
-
-        public int SelectorRow => _selectorRow;
-        public int SelectorCol => _selectorCol;
 
         private void MoveSelector(int deltaRow, int deltaCol)
         {

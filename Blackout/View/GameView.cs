@@ -1,5 +1,6 @@
 using Spectre.Console;
 using Blackout.Model;
+using System;
 
 namespace Blackout.View
 {
@@ -27,6 +28,8 @@ namespace Blackout.View
             AnsiConsole.WriteLine();
             AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
         }
+
+        public ConsoleKey ReadKey() => Console.ReadKey(intercept: true).Key;
 
         public Difficulty AskDifficulty()
         {
