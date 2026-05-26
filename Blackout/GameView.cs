@@ -44,6 +44,23 @@ namespace Blackout
             }
         }
 
+        public void ShowInstructions()
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("How to Play");
+            AnsiConsole.MarkupLine("-----------");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[yellow]↑ ↓ ← →[/] Move selector");
+            AnsiConsole.MarkupLine("[yellow]Enter[/] Click selected cell");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[green]Goal: Turn all cells OFF to win.[/]");
+            AnsiConsole.WriteLine();
+            AnsiConsole.Markup("[grey]Press any key to start...[/]");
+            Console.ReadKey(intercept: true);
+        }
+
         public void RenderGrid(Game game, int selectorRow, int selectorCol)
         {
             AnsiConsole.Clear();

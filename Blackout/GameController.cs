@@ -24,6 +24,7 @@ namespace Blackout
             while (playing)
             {
                 Difficulty difficulty = _view.AskDifficulty();
+                _view.ShowInstructions();
                 _game = new Game(difficulty);
                 _selectorRow = 0;
                 _selectorCol = 0;

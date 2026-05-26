@@ -6,6 +6,7 @@ namespace Blackout
     {
         bool ShowMainMenu();
         Difficulty AskDifficulty();
+        void ShowInstructions();
         void RenderGrid(Game game, int selectorRow, int selectorCol);
         ConsoleKey ReadKey();
         void ShowWinMessage(int moves);
