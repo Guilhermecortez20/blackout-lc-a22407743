@@ -1,8 +1,6 @@
 using System;
-using Blackout.Model;
-using Blackout.View;
 
-namespace Blackout.Controller
+namespace Blackout
 {
     public class GameController
     {
@@ -58,7 +56,7 @@ namespace Blackout.Controller
         private void MoveSelector(int deltaRow, int deltaCol)
         {
             _selectorRow = Math.Clamp(_selectorRow + deltaRow, 0, _game.Size - 1);
-            _selectorCol = Math.Clamp(_selectorCol + deltaCol, 0, _game.Size - 1);           
+            _selectorCol = Math.Clamp(_selectorCol + deltaCol, 0, _game.Size - 1);
         }
 
         private bool AskPlayAgain()
@@ -71,7 +69,7 @@ namespace Blackout.Controller
                 return true;
             }
 
-            return false;            
+            return false;
         }
     }
 }
