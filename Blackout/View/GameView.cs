@@ -5,9 +5,9 @@ namespace Blackout.View
 {
     public class GameView
     {
-        private const string ColorOff = "green";
-        private const string ColorOn = "lime";
-        private const string ColorSelected = "yellow";
+        private const string ColorOff = "#6AA84F";
+        private const string ColorOn = "#B6D7A8";
+        private const string ColorSelected = "#FFE28C";
 
         public void RenderGrid(Game game, int selectorRow, int selectorCol)
         {
@@ -18,8 +18,9 @@ namespace Blackout.View
                 for (int col = 0; col < game.Size; col++)
                 {
                     string color = GetCellColor(game, row, col, selectorRow, selectorCol);
-                    AnsiConsole.Markup($"[{color}]■[/] ");
+                    AnsiConsole.Markup($"[{color}]████[/] ");
                 }
+                AnsiConsole.WriteLine();
                 AnsiConsole.WriteLine();
             }
 
