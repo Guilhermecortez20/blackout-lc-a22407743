@@ -1,4 +1,9 @@
 # BLACKOUT
+## Authors
+**Guilherme Negrinho**<br>
+**Guilherme Cortez**
+## Git Repository
+https://github.com/bread-stealer/Blackout.git
 
 ## UML
 
@@ -39,3 +44,6 @@ classDiagram
     GameView --> Game
     Game --> Difficulty
 ```
+## References
+- Spectre.Console Documentation - Canvas Widget. (n.d.). https://spectreconsole.net/console/widgets/canvas<br>
+- Pinto, F. (2025). Introdução à Computação- Sintaxe Markdown.
