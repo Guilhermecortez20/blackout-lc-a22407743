@@ -4,9 +4,8 @@
     {
         private static void Main(string[] args)
         {
-            GameView view = new GameView();
-            Difficulty difficulty = view.AskDifficulty();
-            Game game = new Game(difficulty);
+            IGameView view = new GameView();
+            Game game = new Game(Difficulty.Easy);
             GameController controller = new GameController(game, view);
             controller.Run();
         }

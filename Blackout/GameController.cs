@@ -5,11 +5,11 @@ namespace Blackout
     public class GameController
     {
         private Game _game;
-        private readonly GameView _view;
+        private readonly IGameView _view;
         private int _selectorRow;
         private int _selectorCol;
 
-        public GameController(Game game, GameView view)
+        public GameController(Game game, IGameView view)
         {
             _game = game;
             _view = view;
@@ -19,9 +19,24 @@ namespace Blackout
 
         public void Run()
         {
-            bool playing = true;
+            bool playing = _view.ShowMainMenu();
 
             while (playing)
+            {
+                Difficulty difficulty = _view.AskDifficulty();
+                _game = new Game(difficulty);
+                _selectorRow = 0;
+                _selectorCol = 0;
+                RunGameLoop();
+                playing = _view.ShowMainMenu();
+            }
+        }
+
+        private void RunGameLoop()
+        {
+            bool inGame = true;
+
+            while (inGame)
             {
                 _view.RenderGrid(_game, _selectorRow, _selectorCol);
                 ConsoleKey key = _view.ReadKey();
@@ -48,7 +63,7 @@ namespace Blackout
                 if (_game.IsWon())
                 {
                     _view.ShowWinMessage(_game.Moves);
-                    playing = AskPlayAgain();
+                    inGame = _view.AskPlayAgain();
                 }
             }
         }
@@ -57,19 +72,6 @@ namespace Blackout
         {
             _selectorRow = Math.Clamp(_selectorRow + deltaRow, 0, _game.Size - 1);
             _selectorCol = Math.Clamp(_selectorCol + deltaCol, 0, _game.Size - 1);
-        }
-
-        private bool AskPlayAgain()
-        {
-            if (_view.AskPlayAgain())
-            {
-                _game = new Game(_game.Level);
-                _selectorRow = 0;
-                _selectorCol = 0;
-                return true;
-            }
-
-            return false;
         }
     }
 }
