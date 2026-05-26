@@ -3,12 +3,20 @@ using System;
 
 namespace Blackout
 {
+    /// <summary>
+    /// Represents the View in the MVC pattern.
+    /// Handles all console rendering and user input using Spectre.Console.
+    /// </summary>
     public class GameView : IGameView
     {
         private const string ColorOff = "#6AA84F";
         private const string ColorOn = "#B6D7A8";
         private const string ColorSelected = "#FFE28C";
 
+        /// <summary>
+        /// Displays the main menu and returns whether the player chose to play.
+        /// </summary>
+        /// <returns>True if the player chose Play, false if Quit.</returns>
         public bool ShowMainMenu()
         {
             AnsiConsole.Clear();
@@ -24,6 +32,10 @@ namespace Blackout
             return choice == "Play";
         }
 
+        /// <summary>
+        /// Displays the difficulty selection menu and returns the chosen difficulty.
+        /// </summary>
+        /// <returns>The <see cref="Difficulty"/> chosen by the player.</returns>
         public Difficulty AskDifficulty()
         {
             AnsiConsole.Clear();
@@ -44,6 +56,9 @@ namespace Blackout
             }
         }
 
+        /// <summary>
+        /// Displays the instructions screen and waits for the player to press a key.
+        /// </summary>
         public void ShowInstructions()
         {
             AnsiConsole.Clear();
@@ -61,6 +76,12 @@ namespace Blackout
             Console.ReadKey(intercept: true);
         }
 
+        /// <summary>
+        /// Renders the current state of the grid, highlighting the selected cell.
+        /// </summary>
+        /// <param name="game">The game model to read cell states from.</param>
+        /// <param name="selectorRow">The row index of the currently selected cell</param>
+        /// <param name="selectorCol">The column index of the currently selected cell.</param>
         public void RenderGrid(Game game, int selectorRow, int selectorCol)
         {
             AnsiConsole.Clear();
@@ -79,16 +100,37 @@ namespace Blackout
             AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
         }
 
+        /// <summary>
+        /// Reads a single key press from the player without displaying it.
+        /// </summary>
+        /// <returns>The <see cref="ConsoleKey"/> pressed by the player.</returns>
         public ConsoleKey ReadKey() => Console.ReadKey(intercept: true).Key;
 
+        /// <summary>
+        /// Displays the win message with the number of moves taken.
+        /// </summary>
+        /// <param name="moves">The number of moves the player took to win.</param>
         public void ShowWinMessage(int moves)
         {
             AnsiConsole.WriteLine();
             AnsiConsole.MarkupLine($"[bold green]You won in {moves} moves![/]");
         }
 
+        /// <summary>
+        /// Asks the player if they want to play again.
+        /// </summary>
+        /// <returns>True if the player wants to play again, false otherwise.</returns>
         public bool AskPlayAgain() => AnsiConsole.Confirm("Play again?");
 
+        /// <summary>
+        /// Returns the display color for a cell based on its state and whether it is selected.
+        /// </summary>
+        /// <param name="game">The game model to read the cell state from.</param>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <param name="selectorRow">The row index of the currently selected cell.</param>
+        /// <param name="selectorCol">The column index of the currently selected cell.</param>
+        /// <returns>A hex color string for use in Spectre.Console markup.</returns>
         private string GetCellColor(Game game, int row, int col, int selectorRow, int selectorCol)
         {
             if (row == selectorRow && col == selectorCol)
