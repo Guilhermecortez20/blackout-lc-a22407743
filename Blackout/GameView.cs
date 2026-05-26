@@ -3,31 +3,26 @@ using System;
 
 namespace Blackout
 {
-    public class GameView
+    public class GameView : IGameView
     {
         private const string ColorOff = "#6AA84F";
         private const string ColorOn = "#B6D7A8";
         private const string ColorSelected = "#FFE28C";
 
-        public void RenderGrid(Game game, int selectorRow, int selectorCol)
+        public bool ShowMainMenu()
         {
             AnsiConsole.Clear();
-
-            for (int row = 0; row < game.Size; row++)
-            {
-                for (int col = 0; col < game.Size; col++)
-                {
-                    string color = GetCellColor(game, row, col, selectorRow, selectorCol);
-                    AnsiConsole.Markup($"[{color}]███[/] ");
-                }
-                AnsiConsole.WriteLine();
-            }
-
+            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
-        }
 
-        public ConsoleKey ReadKey() => Console.ReadKey(intercept: true).Key;
+            string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Choose an option:")
+                    .AddChoices("Play", "Quit")
+            );
+
+            return choice == "Play";
+        }
 
         public Difficulty AskDifficulty()
         {
@@ -48,6 +43,43 @@ namespace Blackout
                 default: return Difficulty.Hard;
             }
         }
+
+        public void ShowInstructions()
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("How to Play");
+            AnsiConsole.MarkupLine("-----------");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[yellow]↑ ↓ ← →[/] Move selector");
+            AnsiConsole.MarkupLine("[yellow]Enter[/] Click selected cell");
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[green]Goal: Turn all cells OFF to win.[/]");
+            AnsiConsole.WriteLine();
+            AnsiConsole.Markup("[grey]Press any key to start...[/]");
+            Console.ReadKey(intercept: true);
+        }
+
+        public void RenderGrid(Game game, int selectorRow, int selectorCol)
+        {
+            AnsiConsole.Clear();
+
+            for (int row = 0; row < game.Size; row++)
+            {
+                for (int col = 0; col < game.Size; col++)
+                {
+                    string color = GetCellColor(game, row, col, selectorRow, selectorCol);
+                    AnsiConsole.Markup($"[{color}]███[/] ");
+                }
+                AnsiConsole.WriteLine();
+            }
+
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
+        }
+
+        public ConsoleKey ReadKey() => Console.ReadKey(intercept: true).Key;
 
         public void ShowWinMessage(int moves)
         {
