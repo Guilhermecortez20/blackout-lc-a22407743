@@ -150,15 +150,25 @@ namespace Blackout
         /// <param name="moves">The number of moves the player took to win.</param>
         public void ShowWinMessage(int moves)
         {
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[bold green]You won in {moves} moves![/]");
+            AnsiConsole.MarkupLine($"[bold italic rgb(0,255,0)]You turned them all off in {moves} moves![/]");
+            AnsiConsole.MarkupLine("[rgb(42,74,50)]────────[/]");
         }
 
         /// <summary>
         /// Asks the player if they want to play again.
         /// </summary>
         /// <returns>True if the player wants to play again, false otherwise.</returns>
-        public bool AskPlayAgain() => AnsiConsole.Confirm("Play again?");
+        public bool AskPlayAgain()
+        {
+            string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[italic rgb(0,255,0)]Think you can do better?[/]")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
+                    .AddChoices("Play Again", "Return to Main Menu")
+            );
+
+            return choice == "Play Again";
+        }
 
         /// <summary>
         /// Returns the display color for a cell based on its state and whether it is selected.
