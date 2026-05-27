@@ -1,22 +1,20 @@
-﻿using System;
-using Blackout.Model;
-
-namespace Blackout
+﻿namespace Blackout
 {
+    /// <summary>
+    /// Entry point of the Blackout application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Initializes the MVC components and starts the game.
+        /// </summary>
+        /// <param name="args">Not used.</param>
         private static void Main(string[] args)
         {
-            Game game = new Game(Difficulty.Hard);
-
-            for (int row = 0; row < game.Size; row++)
-            {
-                for (int col = 0; col < game.Size; col++)
-                {
-                    Console.Write(game.IsCellOn(row, col) ? "■ " : "□ ");
-                }
-                Console.WriteLine();
-            }
+            IGameView view = new GameView();
+            Game game = new Game(Difficulty.Easy);
+            GameController controller = new GameController(game, view);
+            controller.Run();
         }
     }
 }
