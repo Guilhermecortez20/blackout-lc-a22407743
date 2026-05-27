@@ -72,17 +72,22 @@ namespace Blackout
         {
             _firstRender = true;
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]How to Play[/]");
+            AnsiConsole.MarkupLine("[rgb(42,74,50)]────────[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("How to Play");
-            AnsiConsole.MarkupLine("-----------");
+            AnsiConsole.MarkupLine("[rgb(0,255,0)]Controls[/]");
+            AnsiConsole.MarkupLine("[rgb(200,240,216)]↑ ↓ ← →[/] [rgb(124,177,145)]Move selector[/]");
+            AnsiConsole.MarkupLine("[rgb(200,240,216)]Enter  [/] [rgb(124,177,145)]Click selected cell[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[yellow]↑ ↓ ← →[/] Move selector");
-            AnsiConsole.MarkupLine("[yellow]Enter[/] Click selected cell");
+            AnsiConsole.MarkupLine("[rgb(0,255,0)]Objective[/]");
+            AnsiConsole.MarkupLine("[rgb(124,177,145)]Turn all cells OFF to win.[/]");
+            AnsiConsole.MarkupLine("[rgb(124,177,145)]Turning a cell on or off also flips its adjacent cells.[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[green]Goal: Turn all cells OFF to win.[/]");
-            AnsiConsole.WriteLine();
-            AnsiConsole.Markup("[grey]Press any key to start...[/]");
+            AnsiConsole.Markup("[rgb(42,74,50)]Press any key to start...[/]");
             Console.ReadKey(intercept: true);
         }
 
