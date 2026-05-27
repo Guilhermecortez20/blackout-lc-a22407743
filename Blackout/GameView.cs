@@ -44,12 +44,16 @@ namespace Blackout
         public Difficulty AskDifficulty()
         {
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]How bold are you feeling?[/]");
             AnsiConsole.WriteLine();
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("Choose a difficulty:")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
                     .AddChoices("Easy (3x3)", "Medium (5x5)", "Hard (8x8)")
             );
 
