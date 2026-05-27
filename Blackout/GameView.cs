@@ -9,9 +9,10 @@ namespace Blackout
     /// </summary>
     public class GameView : IGameView
     {
-        private const string ColorOff = "#6AA84F";
-        private const string ColorOn = "#B6D7A8";
-        private const string ColorSelected = "#FFE28C";
+        private static readonly Color ColorOff = new Color(12, 125, 12);
+        private static readonly Color ColorOn = new Color(0, 255, 0);
+        private static readonly Color ColorSelected = new Color(200, 240, 216);
+        private bool _firstRender = true;
 
         /// <summary>
         /// Displays the main menu and returns whether the player chose to play.
@@ -20,12 +21,16 @@ namespace Blackout
         public bool ShowMainMenu()
         {
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]The lights are on. Can you turn them all off?[/]");
             AnsiConsole.WriteLine();
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("Choose an option:")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
                     .AddChoices("Play", "Quit")
             );
 
@@ -39,12 +44,16 @@ namespace Blackout
         public Difficulty AskDifficulty()
         {
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]How bold are you feeling?[/]");
             AnsiConsole.WriteLine();
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("Choose a difficulty:")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
                     .AddChoices("Easy (3x3)", "Medium (5x5)", "Hard (8x8)")
             );
 
@@ -61,43 +70,72 @@ namespace Blackout
         /// </summary>
         public void ShowInstructions()
         {
+            _firstRender = true;
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]How to Play[/]");
+            AnsiConsole.MarkupLine("[rgb(42,74,50)]────────[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("How to Play");
-            AnsiConsole.MarkupLine("-----------");
+            AnsiConsole.MarkupLine("[rgb(0,255,0)]Controls[/]");
+            AnsiConsole.MarkupLine("[rgb(200,240,216)]↑ ↓ ← →[/] [rgb(124,177,145)]Move selector[/]");
+            AnsiConsole.MarkupLine("[rgb(200,240,216)]Enter  [/] [rgb(124,177,145)]Click selected cell[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[yellow]↑ ↓ ← →[/] Move selector");
-            AnsiConsole.MarkupLine("[yellow]Enter[/] Click selected cell");
+            AnsiConsole.MarkupLine("[rgb(0,255,0)]Objective[/]");
+            AnsiConsole.MarkupLine("[rgb(124,177,145)]Turn all cells OFF to win.[/]");
+            AnsiConsole.MarkupLine("[rgb(124,177,145)]Turning a cell on or off also flips its adjacent cells.[/]");
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[green]Goal: Turn all cells OFF to win.[/]");
-            AnsiConsole.WriteLine();
-            AnsiConsole.Markup("[grey]Press any key to start...[/]");
+            AnsiConsole.Markup("[rgb(42,74,50)]Press any key to start...[/]");
             Console.ReadKey(intercept: true);
         }
 
         /// <summary>
-        /// Renders the current state of the grid, highlighting the selected cell.
+        /// Renders the current state of the grid using a Canvas, highlighting the selected cell.
+        /// Clears the screen on the first render, then repositions the cursor for subsequent frames to avoid flickering.
         /// </summary>
         /// <param name="game">The game model to read cell states from.</param>
-        /// <param name="selectorRow">The row index of the currently selected cell</param>
+        /// <param name="selectorRow">The row index of the currently selected cell.</param>
         /// <param name="selectorCol">The column index of the currently selected cell.</param>
         public void RenderGrid(Game game, int selectorRow, int selectorCol)
         {
-            AnsiConsole.Clear();
+            Console.CursorVisible = false;
+
+            if (_firstRender)
+            {
+                AnsiConsole.Clear();
+                _firstRender = false;
+            }
+            else
+            {
+                Console.SetCursorPosition(0,0);
+            }
+
+            int scale = 5;
+
+            AnsiConsole.MarkupLine($"[rgb(124,177,145)]Moves: {game.Moves}[/]");
+            AnsiConsole.WriteLine();
+
+            Canvas canvas = new Canvas(game.Size * scale, game.Size * scale);
 
             for (int row = 0; row < game.Size; row++)
             {
                 for (int col = 0; col < game.Size; col++)
                 {
-                    string color = GetCellColor(game, row, col, selectorRow, selectorCol);
-                    AnsiConsole.Markup($"[{color}]███[/] ");
+                    Color color = GetCellColor(game, row, col, selectorRow, selectorCol);
+                    
+                    for (int dy = 0; dy < scale; dy++)
+                    {
+                        for (int dx = 0; dx < scale; dx++)
+                        {
+                            canvas.SetPixel(col * scale + dx, row * scale + dy, color);
+                        }
+                    }
                 }
-                AnsiConsole.WriteLine();
             }
-
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
+            canvas.Scale = false;
+            AnsiConsole.Write(canvas);
         }
 
         /// <summary>
@@ -112,15 +150,25 @@ namespace Blackout
         /// <param name="moves">The number of moves the player took to win.</param>
         public void ShowWinMessage(int moves)
         {
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[bold green]You won in {moves} moves![/]");
+            AnsiConsole.MarkupLine($"[bold italic rgb(0,255,0)]You turned them all off in {moves} moves![/]");
+            AnsiConsole.MarkupLine("[rgb(42,74,50)]────────[/]");
         }
 
         /// <summary>
         /// Asks the player if they want to play again.
         /// </summary>
         /// <returns>True if the player wants to play again, false otherwise.</returns>
-        public bool AskPlayAgain() => AnsiConsole.Confirm("Play again?");
+        public bool AskPlayAgain()
+        {
+            string choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[italic rgb(0,255,0)]Think you can do better?[/]")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
+                    .AddChoices("Play Again", "Return to Main Menu")
+            );
+
+            return choice == "Play Again";
+        }
 
         /// <summary>
         /// Returns the display color for a cell based on its state and whether it is selected.
@@ -130,8 +178,8 @@ namespace Blackout
         /// <param name="col">The column index of the cell.</param>
         /// <param name="selectorRow">The row index of the currently selected cell.</param>
         /// <param name="selectorCol">The column index of the currently selected cell.</param>
-        /// <returns>A hex color string for use in Spectre.Console markup.</returns>
-        private string GetCellColor(Game game, int row, int col, int selectorRow, int selectorCol)
+        /// <returns>A <see cref="Color"/> representing the cell's display color.</returns>
+        private Color GetCellColor(Game game, int row, int col, int selectorRow, int selectorCol)
         {
             if (row == selectorRow && col == selectorCol)
                 return ColorSelected;

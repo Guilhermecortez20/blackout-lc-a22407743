@@ -2,7 +2,7 @@ namespace Blackout
 {
     /// <summary>
     ///  Represents the difficulty levels available in the game.
-    /// Each level determines the grid size and number of initial random clicks-
+    /// Each level determines the grid size and number of initial random clicks.
     /// </summary>
     public enum Difficulty
     {

@@ -39,8 +39,8 @@ namespace Blackout
         /// <summary>
         /// Returns whether the cell at the given position is currently on.
         /// </summary>
-        /// <param name="row">The row index of the cell.<</param>
-        /// <param name="col">The column index of the cell</param>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
         /// <returns>True if the cell is on, false if off.</returns>
         public bool IsCellOn(int row, int col) => _grid.IsOn(row, col);
 
