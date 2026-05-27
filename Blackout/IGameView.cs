@@ -50,5 +50,10 @@ namespace Blackout
         /// </summary>
         /// <returns>True if the player wants to play again, false otherwise.</returns>
         bool AskPlayAgain();
+
+        /// <summary>
+        /// Resets the view state for a new game session.
+        /// </summary>
+        void Reset();
     }
 }

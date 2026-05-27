@@ -171,6 +171,14 @@ namespace Blackout
         }
 
         /// <summary>
+        /// Resets the view state for a new game session.
+        /// </summary>
+        public void Reset()
+        {
+            _firstRender = true;
+        }
+
+        /// <summary>
         /// Returns the display color for a cell based on its state and whether it is selected.
         /// </summary>
         /// <param name="game">The game model to read the cell state from.</param>

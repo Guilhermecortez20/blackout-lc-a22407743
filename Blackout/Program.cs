@@ -12,8 +12,7 @@
         private static void Main(string[] args)
         {
             IGameView view = new GameView();
-            Game game = new Game(Difficulty.Easy);
-            GameController controller = new GameController(game, view);
+            GameController controller = new GameController(view);
             controller.Run();
         }
     }

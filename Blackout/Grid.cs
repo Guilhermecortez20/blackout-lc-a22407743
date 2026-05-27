@@ -24,7 +24,10 @@ namespace Blackout
         {
             Size = size;
             _cells = new bool[size, size];
-            ApplyRandomClicks(randomClicks);
+            do
+            {
+                ApplyRandomClicks(randomClicks);
+            } while (IsCleared());
         }
 
        /// <summary>

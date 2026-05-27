@@ -16,11 +16,9 @@ namespace Blackout
         /// <summary>
         /// Creates a new instance of the GameController.
         /// </summary>
-        /// <param name="game">The game model to control.</param>
         /// <param name="view">The view used to render the game and read input.</param>
-        public GameController(Game game, IGameView view)
+        public GameController(IGameView view)
         {
-            _game = game;
             _view = view;
             _selectorRow = 0;
             _selectorCol = 0;
@@ -79,7 +77,18 @@ namespace Blackout
                 if (_game.IsWon())
                 {
                     _view.ShowWinMessage(_game.Moves);
-                    inGame = _view.AskPlayAgain();
+                    bool playAgain = _view.AskPlayAgain();
+                    if (playAgain)
+                    {
+                        _game = new Game(_game.Level);
+                        _selectorRow = 0;
+                        _selectorCol = 0;
+                        _view.Reset();
+                    }
+                    else
+                    {
+                        inGame = false;
+                    }
                 }
             }
         }

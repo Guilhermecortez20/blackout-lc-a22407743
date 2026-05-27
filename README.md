@@ -52,7 +52,7 @@
 
 #### Grid Initialization
 
-- The board starts with all cells off. A number of random toggles (determined by difficulty) are applied to seed a scrambled but always-solvable starting state, since every toggle operation is its own inverse.
+- The board starts with all cells off. A number of random toggles (determined by difficulty) are applied to seed a scrambled but always-solvable starting state, since every toggle operation is its own inverse. A `do-while` loop guarantees the grid is never empty at the start, preventing an instant win condition.
 
 #### Toggle Logic
 
@@ -81,7 +81,7 @@ classDiagram
         -_view : IGameView
         -_selectorRow : int
         -_selectorCol : int
-        +GameController(game : Game, view : IGameView)
+        +GameController(view : IGameView)
         +Run() void
         -RunGameLoop() void
         -MoveSelector(deltaRow : int, deltaCol : int) void
@@ -127,12 +127,14 @@ classDiagram
         +ReadKey() ConsoleKey
         +ShowWinMessage(moves : int) void
         +AskPlayAgain() bool
+        +Reset() void
     }
 
     class GameView {
         -ColorOff : string
         -ColorOn : string
         -ColorSelected : string
+        -_firstRender : bool
         +ShowMainMenu() bool
         +AskDifficulty() Difficulty
         +ShowInstructions() void
@@ -140,11 +142,11 @@ classDiagram
         +ReadKey() ConsoleKey
         +ShowWinMessage(moves : int) void
         +AskPlayAgain() bool
+        +Reset() void
         -GetCellColor(game : Game, row : int, col : int, selectorRow : int, selectorCol : int) string
     }
 
     Program ..> GameController : «instantiate»
-    Program ..> Game : «instantiate»
     Program ..> GameView : «instantiate»
 
     GameController --> "1" Game
