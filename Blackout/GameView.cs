@@ -21,12 +21,16 @@ namespace Blackout
         public bool ShowMainMenu()
         {
             AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]BLACKOUT[/]");
+            AnsiConsole.Write(
+                new FigletText("BLACKOUT")
+                    .Color(Color.Green1)
+            );
+            AnsiConsole.MarkupLine("[italic rgb(0,255,0)]The lights are on. Can you turn them all off?[/]");
             AnsiConsole.WriteLine();
 
             string choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("Choose an option:")
+                    .HighlightStyle(new Style(foreground: Color.Green1))
                     .AddChoices("Play", "Quit")
             );
 
