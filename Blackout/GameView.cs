@@ -9,9 +9,9 @@ namespace Blackout
     /// </summary>
     public class GameView : IGameView
     {
-        private static readonly Color ColorOff = new Color(106, 168, 79);
-        private static readonly Color ColorOn = new Color(182, 215, 168);
-        private static readonly Color ColorSelected = new Color(255, 226, 140);
+        private static readonly Color ColorOff = new Color(12, 125, 12);
+        private static readonly Color ColorOn = new Color(0, 255, 0);
+        private static readonly Color ColorSelected = new Color(200, 240, 216);
         private bool _firstRender = true;
 
         /// <summary>
@@ -114,7 +114,10 @@ namespace Blackout
 
             int scale = 5;
 
-            Canvas canvas = new Canvas(game.Size * scale, game.Size *scale);
+            AnsiConsole.MarkupLine($"[rgb(124,177,145)]Moves: {game.Moves}[/]");
+            AnsiConsole.WriteLine();
+
+            Canvas canvas = new Canvas(game.Size * scale, game.Size * scale);
 
             for (int row = 0; row < game.Size; row++)
             {
@@ -133,8 +136,6 @@ namespace Blackout
             }
             canvas.Scale = false;
             AnsiConsole.Write(canvas);
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[grey]Moves: {game.Moves}[/]");
         }
 
         /// <summary>
