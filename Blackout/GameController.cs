@@ -2,6 +2,7 @@ using System;
 
 namespace Blackout
 {
+
     /// <summary>
     /// Represents the Controller in the MVC.
     /// Manages the game loop, user input and coordinates between Model and View.
@@ -9,6 +10,8 @@ namespace Blackout
     public class GameController
     {
         private Game _game;
+        private readonly HighScoreStore _highScores = new HighScoreStore();
+        private int? _currentHighScore;
         private readonly IGameView _view;
         private int _selectorRow;
         private int _selectorCol;
@@ -36,6 +39,7 @@ namespace Blackout
                 Difficulty difficulty = _view.AskDifficulty();
                 _view.ShowInstructions();
                 _game = new Game(difficulty);
+                _currentHighScore = _highScores.GetHighScore(difficulty);
                 _selectorRow = 0;
                 _selectorCol = 0;
                 RunGameLoop();
@@ -52,7 +56,7 @@ namespace Blackout
 
             while (inGame)
             {
-                _view.RenderGrid(_game, _selectorRow, _selectorCol);
+_view.RenderGrid(_game, _selectorRow, _selectorCol, _currentHighScore);
                 ConsoleKey key = _view.ReadKey();
 
                 switch (key)
@@ -76,6 +80,9 @@ namespace Blackout
 
                 if (_game.IsWon())
                 {
+_highScores.TryUpdateHighScore(_game.Level, _game.Moves);
+                    _currentHighScore = _highScores.GetHighScore(_game.Level);
+
                     _view.ShowWinMessage(_game.Moves);
                     bool playAgain = _view.AskPlayAgain();
                     if (playAgain)
