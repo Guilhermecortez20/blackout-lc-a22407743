@@ -98,7 +98,8 @@ namespace Blackout
         /// <param name="game">The game model to read cell states from.</param>
         /// <param name="selectorRow">The row index of the currently selected cell.</param>
         /// <param name="selectorCol">The column index of the currently selected cell.</param>
-        public void RenderGrid(Game game, int selectorRow, int selectorCol)
+        public void RenderGrid(Game game, int selectorRow, int selectorCol, int? highScore)
+
         {
             Console.CursorVisible = false;
 
@@ -114,6 +115,8 @@ namespace Blackout
 
             int scale = 5;
 
+            string highScoreText = highScore.HasValue ? highScore.Value.ToString() : "-";
+            AnsiConsole.MarkupLine($"[rgb(124,177,145)]High score: {highScoreText} moves[/]");
             AnsiConsole.MarkupLine($"[rgb(124,177,145)]Moves: {game.Moves}[/]");
             AnsiConsole.WriteLine();
 
