@@ -57,17 +57,24 @@ namespace Blackout
         }
 
         /// <summary>
-        /// Toggles the cell at the given position and its adjacent cells (above, below, left, and right).
+        /// Toggles the cell at the given position and its adjacent cells (8 directions including diagonals).
         /// </summary>
         /// <param name="row">The row index of the cell to toggle.</param>
         /// <param name="col">The column index of the cell to toggle.</param>
         public void Toggle(int row, int col)
         {
             ToggleCell(row, col);
-            ToggleCell(row - 1, col);
-            ToggleCell(row + 1, col);
-            ToggleCell(row, col - 1);
-            ToggleCell(row, col + 1);
+
+            // 8 directions (up, down, left, right + 4 diagonals)
+            ToggleCell(row - 1, col);     // up
+            ToggleCell(row + 1, col);     // down
+            ToggleCell(row, col - 1);     // left
+            ToggleCell(row, col + 1);     // right
+
+            ToggleCell(row - 1, col - 1); // up-left
+            ToggleCell(row - 1, col + 1); // up-right
+            ToggleCell(row + 1, col - 1); // down-left
+            ToggleCell(row + 1, col + 1); // down-right
         }
 
         /// <summary>
