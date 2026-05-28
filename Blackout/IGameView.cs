@@ -31,7 +31,7 @@ namespace Blackout
         /// <param name="game">The game model to read cell states from.</param>
         /// <param name="selectorRow">The row index of the currently selected cell.</param>
         /// <param name="selectorCol">The column index of the currently selected cell</param>
-        void RenderGrid(Game game, int selectorRow, int selectorCol);
+void RenderGrid(Game game, int selectorRow, int selectorCol, int? highScore);
         
         /// <summary>
         /// Reads a single key press from the player without displaying it.
